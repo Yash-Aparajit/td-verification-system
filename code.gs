@@ -86,3 +86,30 @@ function saveChecklist(payload) {
   }
 
 }
+
+
+/* ---------- VALIDATION ---------- */
+
+
+function validatePayload(p) {
+
+  if (!p.line) throw new Error("Line missing");
+
+  if (!p.rows || p.rows.length === 0)
+    throw new Error("No rows submitted");
+
+  p.rows.forEach(r => {
+
+    if (!r.itemCode) throw new Error("Item code missing");
+
+    if (!r.itemName) throw new Error("Item name missing");
+
+    if (r.used !== "YES" && r.used !== "NO")
+      throw new Error("Invalid used flag");
+
+    if (isNaN(r.actualQty))
+      throw new Error("Invalid quantity");
+
+  });
+
+}
