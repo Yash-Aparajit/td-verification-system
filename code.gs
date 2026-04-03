@@ -172,3 +172,105 @@ function generateFileName(line){
   return `${prefix}${seq}.pdf`;
 }
 
+
+/* ---------- GENERATE PDF ---------- */
+
+
+function generatePDF(data, id) {
+
+  const template = HtmlService.createTemplateFromFile("Report");
+
+  template.data = data;
+  template.id = id;
+  template.time = new Date();
+
+  const html = template.evaluate().getContent();
+
+  const blob = Utilities.newBlob(html, "text/html")
+    .getAs("application/pdf")
+    .setName(generateFileName(data.line));
+
+  const folder = getFolder();
+
+  return folder.createFile(blob);
+
+}
+
+
+/* ---------- DRIVE FOLDER ---------- */
+
+
+function getFolder() {
+
+  const folders = DriveApp.getFoldersByName(DRIVE_FOLDER_NAME);
+
+  if (folders.hasNext()) return folders.next();
+
+  return DriveApp.createFolder(DRIVE_FOLDER_NAME);
+
+}
+
+
+/* ---------- INDEX LOG ---------- */
+
+
+function logIndex(id, line, link) {
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+
+  let sheet = ss.getSheetByName(INDEX_SHEET);
+
+  if (!sheet) {
+
+    sheet = ss.insertSheet(INDEX_SHEET);
+
+    sheet.appendRow(["ID", "Timestamp", "Line", "Link"]);
+
+  }
+
+  sheet.appendRow([
+    id,
+    new Date(),
+    line,
+    link
+  ]);
+
+}
+
+
+/* ---------- EMAIL NOTIFICATION ---------- */
+
+
+function sendEmail(id, line, link) {
+
+  const subject = `TD Verification Completed – ${line}`;
+
+  const date = Utilities.formatDate(
+    new Date(),
+    Session.getScriptTimeZone(),
+    "dd-MM-yyyy HH:mm"
+  );
+
+  const body = `
+  TD CONSUMABLE VERIFICATION
+
+  Line : ${line}
+  Verification ID : ${id}
+  Date & Time : ${date}
+
+  The verification report has been archived.
+
+  Report Link
+  ${link}
+
+  -- Automated TD Verification System --
+  `;
+
+  MailApp.sendEmail({
+    to: EMAIL_NOTIFY,
+    subject: subject,
+    body: body
+  });
+
+}
+
