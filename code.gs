@@ -274,3 +274,66 @@ function sendEmail(id, line, link) {
 
 }
 
+
+/* ---------- Reminder Frequency  ---------- */
+
+
+function frequencyReminder() {
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(MASTER_SHEET);
+
+  const data = sheet.getDataRange().getValues();
+  data.shift();
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  let reminderLines = [];
+
+  data.forEach(r => {
+
+    const line = r[0];
+    const freqDays = Number(r[5]);
+    const lastDate = new Date(r[6]);
+
+    if (!freqDays || !lastDate) return;
+
+    const nextDate = new Date(lastDate);
+    nextDate.setDate(nextDate.getDate() + freqDays);
+
+    if (
+      nextDate.getDate() === tomorrow.getDate() &&
+      nextDate.getMonth() === tomorrow.getMonth() &&
+      nextDate.getFullYear() === tomorrow.getFullYear()
+    ) {
+      reminderLines.push(line);
+    }
+
+  });
+
+  if (reminderLines.length === 0) return;
+
+  const subject = "Reminder – TD Verification Required Tomorrow";
+
+  const body = `
+  TD Verification Reminder
+
+  The following lines require TD verification tomorrow:
+
+  ${reminderLines.join("\n")}
+
+  Please ensure verification is completed.
+
+  -- TD Verification System --
+  `;
+
+  MailApp.sendEmail({
+    to: EMAIL_NOTIFY,
+    subject: subject,
+    body: body
+  });
+
+}
+
+
