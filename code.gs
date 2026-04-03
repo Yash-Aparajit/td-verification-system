@@ -44,3 +44,45 @@ function getTDData() {
 
   return result;
 }
+
+
+/* ---------- SAVE CHECKLIST ---------- */
+
+
+function saveChecklist(payload) {
+
+  const lock = LockService.getScriptLock();
+
+  try {
+
+    lock.waitLock(30000);
+
+    validatePayload(payload);
+
+    const id = generateID(payload.line);
+
+    const pdf = generatePDF(payload, id);
+
+    const link = pdf.getUrl();
+
+    logIndex(id, payload.line, link);
+
+    sendEmail(id, payload.line, link);
+
+    return {
+      success: true,
+      id: id,
+      link: link
+    };
+
+  } catch (err) {
+
+    throw new Error("SERVER_ERROR: " + err.message);
+
+  } finally {
+
+    lock.releaseLock();
+
+  }
+
+}
