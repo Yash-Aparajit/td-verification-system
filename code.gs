@@ -113,3 +113,62 @@ function validatePayload(p) {
   });
 
 }
+
+
+/* ---------- NORMALIZATION ---------- */
+
+
+function normalize(v) {
+
+  if (!v) return "";
+
+  return String(v).trim();
+
+}
+
+
+/* ---------- UNIQUE ID ---------- */
+
+
+function generateID(line) {
+
+  const date = Utilities.formatDate(
+    new Date(),
+    Session.getScriptTimeZone(),
+    "yyyyMMdd_HHmmss"
+  );
+
+  return `TD_${line}_${date}`;
+
+}
+
+
+/* ---------- Filename Generator ---- */
+
+
+function generateFileName(line){
+
+  const folder = getFolder();
+
+  const today = Utilities.formatDate(
+    new Date(),
+    Session.getScriptTimeZone(),
+    "dd-MM-yyyy"
+  );
+
+  const prefix = `TD_${line}_${today}_`;
+
+  let count = 0;
+
+  const files = folder.getFiles();
+
+  while(files.hasNext()){
+    const f = files.next().getName();
+    if(f.startsWith(prefix)) count++;
+  }
+
+  const seq = String(count + 1).padStart(3,"0");
+
+  return `${prefix}${seq}.pdf`;
+}
+
