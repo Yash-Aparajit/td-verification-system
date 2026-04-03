@@ -1,0 +1,5 @@
+const SPREADSHEET_ID = SpreadsheetApp.getActive().getId();
+const MASTER_SHEET = "TD_MASTER";
+const INDEX_SHEET = "TD_INDEX";
+const DRIVE_FOLDER_NAME = "TD_VERIFICATION_RECORDS";
+const EMAIL_NOTIFY = "YOUR EMAIL ID HERE";
