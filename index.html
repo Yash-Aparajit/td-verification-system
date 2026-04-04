@@ -322,8 +322,7 @@ function save(){
   const btn=document.getElementById("saveBtn");
 
   btn.disabled=true;
-
-  showStatus("Saving...");
+  btn.innerHTML="⏳ Saving...";
 
   const payload={
     line:lineSelect.value,
@@ -333,18 +332,21 @@ function save(){
   google.script.run
 
   .withSuccessHandler(res=>{
-    showSuccess("Saved ID: "+res.id);
+    showSuccess(`TD saved successfully\nID: ${res.id}`);
     btn.disabled=false;
+    btn.innerHTML="Save Verification";
   })
 
   .withFailureHandler(err=>{
     showError(err.message);
     btn.disabled=false;
+    btn.innerHTML="Save Verification";
   })
 
   .saveChecklist(payload);
 
 }
+
 
 function showError(msg){
 
