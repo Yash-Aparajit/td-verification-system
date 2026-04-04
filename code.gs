@@ -132,13 +132,32 @@ function normalize(v) {
 
 function generateID(line) {
 
-  const date = Utilities.formatDate(
+  const today = Utilities.formatDate(
     new Date(),
     Session.getScriptTimeZone(),
-    "yyyyMMdd_HHmmss"
+    "ddMMyyyy"
   );
 
-  return `TD_${line}_${date}`;
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(INDEX_SHEET);
+
+  let count=0;
+
+  if(sheet){
+
+    const data=sheet.getRange(2,1,sheet.getLastRow()-1,1).getValues();
+
+    data.forEach(r=>{
+      if(r[0].includes(`TD_${line}_${today}`)){
+        count++;
+      }
+    });
+
+  }
+
+  const seq=String(count+1).padStart(3,"0");
+
+  return `TD_${line}_${today}_${seq}`;
 
 }
 
