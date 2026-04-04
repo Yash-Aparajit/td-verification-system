@@ -237,6 +237,16 @@ function addExtraRow(){
 
 }
 
+function clearLine(){
+
+  const inputs=document.querySelectorAll("#tdTable input[type='number']");
+
+  inputs.forEach(i=>{
+    i.value="";
+  });
+
+}
+  
 function collect(){
 
   const line=lineSelect.value;
