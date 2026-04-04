@@ -371,10 +371,11 @@ function showSuccess(msg){
 
   s.innerText=msg;
 
-  navigator.vibrate(200);
+  setTimeout(()=>{
+    s.style.opacity="0";
+  },10000);
 
-  const audio=new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
-  audio.play();
+  navigator.vibrate(200);
 
 }
 
