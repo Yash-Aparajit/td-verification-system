@@ -109,6 +109,10 @@ function validatePayload(p) {
 
     if (isNaN(r.actualQty))
       throw new Error("Invalid quantity");
+    
+    if (r.actualQty < 0)
+      throw new Error("Negative quantity not allowed");
+
 
   });
 
