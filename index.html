@@ -141,6 +141,31 @@ button{
 
 let TD = {};
 
+let darkMode=true;
+
+function toggleTheme(){
+
+  const body=document.body;
+  const btn=document.getElementById("themeToggle");
+
+  if(darkMode){
+
+    body.style.background="#f8fafc";
+    body.style.color="#0f172a";
+    btn.innerHTML="☀️";
+
+  }else{
+
+    body.style.background="#0f172a";
+    body.style.color="#e2e8f0";
+    btn.innerHTML="🌙";
+
+  }
+
+  darkMode=!darkMode;
+
+}
+
 function updateConnectionStatus(){
 
   const el=document.getElementById("connectionStatus");
