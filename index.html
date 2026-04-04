@@ -246,7 +246,21 @@ function clearLine(){
   });
 
 }
-  
+
+function toggleActual(idx){
+
+  const used=document.getElementById(`used_${idx}`).value;
+  const qty=document.getElementById(`qty_${idx}`);
+
+  if(used==="NO"){
+    qty.value=0;
+    qty.disabled=true;
+  }else{
+    qty.disabled=false;
+  }
+
+}
+
 function collect(){
 
   const line=lineSelect.value;
