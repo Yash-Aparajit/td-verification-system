@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  font-family:Inter,system-ui;
+  background:#0f172a;
+  color:#e2e8f0;
+  margin:0;
+  padding:12px;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+}
+
+h2{
+  font-size:22px;
+}
+
+select{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  border-radius:8px;
+  border:none;
+  background:#1e293b;
+  color:white;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:16px;
+  background:#1e293b;
+}
+
+th{
+  background:#020617;
+  padding:14px;
+}
+
+td{
+  padding:14px;
+  text-align:center;
+}
+
+tr:nth-child(even){
+  background:#172033;
+}
+
+input{
+  width:70px;
+  font-size:16px;
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #334155;
+  background:#0f172a;
+  color:white;
+}
+
+button{
+  width:100%;
+  padding:16px;
+  margin-top:14px;
+  font-size:18px;
+  background:#22c55e;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+}
+
+.status{
+  margin-top:12px;
+  font-size:18px;
+}
+
+.error{
+  color:#f87171;
+}
+
+.success{
+  color:#4ade80;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>TD Verification</h2>
+
+<div id="connectionStatus" style="margin-bottom:10px;font-weight:bold;">
+🟢 Online
+</div>
+
+<select id="lineSelect"></select>
+
+<div id="tableArea"></div>
+
+<button onclick="addExtraRow()">➕ Add Extra Item</button>
+
+<button id="saveBtn" onclick="save()">Save Verification</button>
+
+<div id="status" class="status"></div>
+
+</div>
+
+<script>
+
+let TD = {};
+
+function updateConnectionStatus(){
+
+  const el=document.getElementById("connectionStatus");
+
+  if(navigator.onLine){
+    el.innerHTML="🟢 Online";
+  }else{
+    el.innerHTML="🔴 Offline";
+  }
+
+}
+
+window.addEventListener("online",updateConnectionStatus);
+window.addEventListener("offline",updateConnectionStatus);
+
+updateConnectionStatus();
+
+let extraRows = [];
+
+google.script.run.withSuccessHandler(data=>{
+
+  TD=data;
+
+  const sel=document.getElementById("lineSelect");
+
+  sel.innerHTML="<option value=''>Select Line</option>";
+
+  Object.keys(TD).forEach(l=>{
+    sel.innerHTML+=`<option>${l}</option>`;
+  });
+
+}).getTDData();
+
+lineSelect.onchange=render;
+
+function render(){
+
+  const line=lineSelect.value;
+
+  if(!TD[line]) return;
+
+  let html=`
+  <table id="tdTable">
+  <tr>
+  <th>Code</th>
+  <th>Description</th>
+  <th>TD</th>
+  <th>Used</th>
+  <th>Actual</th>
+  </tr>`;
+
+  TD[line].forEach((i,idx)=>{
+
+    html+=`
+    <tr>
+      <td>${i.itemCode}</td>
+      <td>${i.itemName}</td>
+      <td>${i.tdQty} ${i.unit}</td>
+
+      <td>
+        <select id="used_${idx}">
+          <option value="YES" selected>YES</option>
+          <option value="NO">NO</option>
+        </select>
+      </td>
+
+      <td>
+        <input id="qty_${idx}" type="number">
+      </td>
+    </tr>`;
+  });
+
+  html+=`</table>`;
+
+  tableArea.innerHTML=html;
+
+}
+
+function addExtraRow(){
+
+  const table=document.getElementById("tdTable");
+
+  const id="extra_"+Date.now();
+
+  const row=`
+  <tr id="${id}">
+
+    <td><input placeholder="Code"></td>
+
+    <td><input placeholder="Item Name"></td>
+
+    <td>EXTRA</td>
+
+    <td>
+      <select>
+        <option>YES</option>
+        <option>NO</option>
+      </select>
+    </td>
+
+    <td>
+      <input type="number">
+    </td>
+
+  </tr>`;
+
+  table.insertAdjacentHTML("beforeend",row);
+
+  extraRows.push(id);
+
+}
+
+function collect(){
+
+  const line=lineSelect.value;
+
+  let rows=[];
+
+  TD[line].forEach((i,idx)=>{
+
+    rows.push({
+
+      itemCode:i.itemCode,
+      itemName:i.itemName,
+      tdQty:i.tdQty,
+      unit:i.unit,
+      used:document.getElementById(`used_${idx}`).value,
+      actualQty:Number(document.getElementById(`qty_${idx}`).value)||0
+
+    });
+
+  });
+
+  extraRows.forEach(id=>{
+
+    const r=document.getElementById(id);
+
+    const cells=r.querySelectorAll("input,select");
+
+    rows.push({
+
+      itemCode:cells[0].value,
+      itemName:cells[1].value,
+      tdQty:"",
+      unit:"",
+      used:cells[2].value,
+      actualQty:Number(cells[3].value)||0
+
+    });
+
+  });
+
+  return rows;
+
+}
+
+function save(){
+
+  if(!lineSelect.value){
+    showError("Select line");
+    return;
+  }
+
+  const btn=document.getElementById("saveBtn");
+
+  btn.disabled=true;
+
+  showStatus("Saving...");
+
+  const payload={
+    line:lineSelect.value,
+    rows:collect()
+  };
+
+  google.script.run
+
+  .withSuccessHandler(res=>{
+    showSuccess("Saved ID: "+res.id);
+    btn.disabled=false;
+  })
+
+  .withFailureHandler(err=>{
+    showError(err.message);
+    btn.disabled=false;
+  })
+
+  .saveChecklist(payload);
+
+}
+
+function showError(msg){
+
+  const s=document.getElementById("status");
+
+  s.className="status error";
+
+  s.innerText=msg;
+
+  navigator.vibrate([200,100,200]);
+
+  const audio=new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+  audio.play();
+
+}
+
+function showSuccess(msg){
+
+  const s=document.getElementById("status");
+
+  s.className="status success";
+
+  s.innerText=msg;
+
+  navigator.vibrate(200);
+
+  const audio=new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+  audio.play();
+
+}
+
+function showStatus(msg){
+
+  const s=document.getElementById("status");
+  s.className="status";
+  s.innerText=msg;
+
+}
+
+</script>
+
+</body>
+</html>
