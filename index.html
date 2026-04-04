@@ -185,7 +185,7 @@ function render(){
       <td>${i.tdQty} ${i.unit}</td>
 
       <td>
-        <select id="used_${idx}">
+        <select id="used_${idx}" onchange="toggleActual(${idx})">
           <option value="YES" selected>YES</option>
           <option value="NO">NO</option>
         </select>
