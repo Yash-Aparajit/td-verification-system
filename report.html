@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<style>
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  margin:30px;
+  color:#000;
+}
+
+/* ---------- HEADER ---------- */
+
+.company{
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.title{
+  text-align:center;
+  font-size:16px;
+  margin-top:4px;
+  margin-bottom:20px;
+}
+
+/* ---------- META INFO ---------- */
+
+.meta{
+  margin-bottom:20px;
+}
+
+.meta table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.meta td{
+  padding:6px;
+  font-size:14px;
+}
+
+/* ---------- REPORT TABLE ---------- */
+
+.reportTable{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+.reportTable th{
+  background:#efefef;
+  border:1px solid #000;
+  padding:8px;
+  font-size:14px;
+}
+
+.reportTable td{
+  border:1px solid #000;
+  padding:8px;
+  font-size:13px;
+  text-align:center;
+}
+
+/* ---------- SUMMARY ---------- */
+
+.summary{
+  margin-top:20px;
+  font-size:14px;
+}
+
+/* ---------- SIGNATURE SECTION ---------- */
+
+.signature{
+  margin-top:40px;
+}
+
+.signature table{
+  width:100%;
+}
+
+.signature td{
+  text-align:center;
+  padding-top:40px;
+  font-size:13px;
+}
+
+/* ---------- FOOTER ---------- */
+
+.footer{
+  margin-top:40px;
+  text-align:center;
+  font-size:12px;
+  color:#444;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- COMPANY HEADER -->
+
+<div class="company">
+YOUR COMPANIE NAME HERE
+</div>
+
+<div class="title">
+TD CONSUMABLE VERIFICATION REPORT
+</div>
+
+<!-- META INFORMATION -->
+
+<div class="meta">
+
+<table>
+
+<tr>
+<td><b>Line</b></td>
+<td><?= data.line ?></td>
+</tr>
+
+<tr>
+<td><b>Verification ID</b></td>
+<td><?= id ?></td>
+</tr>
+
+<tr>
+<td><b>Date & Time</b></td>
+<td><?= time ?></td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- VERIFICATION TABLE -->
+
+<table class="reportTable">
+
+<tr>
+<th>Item Code</th>
+<th>Item Name</th>
+<th>TD Qty</th>
+<th>Unit</th>
+<th>Used</th>
+<th>Actual Qty</th>
+</tr>
+
+<? let total = 0; ?>
+
+<? data.rows.forEach(r=>{ total++; ?>
+
+<tr>
+
+<td><?= r.itemCode ?></td>
+<td><?= r.itemName ?></td>
+<td><?= r.tdQty ?></td>
+<td><?= r.unit ?></td>
+<td><?= r.used ?></td>
+<td><?= r.actualQty ?></td>
+
+</tr>
+
+<? }); ?>
+
+</table>
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<b>Total Items Verified :</b> <?= total ?>
+
+</div>
+
+<!-- SIGNATURE SECTION -->
+
+<div class="signature">
+
+<table>
+
+<tr>
+
+<td>
+Verified By<br>
+____________________
+</td>
+
+<td>
+Approved By<br>
+____________________
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+TD Verification System – Automated Report
+
+</div>
+
+</body>
+</html>
