@@ -356,10 +356,11 @@ function showError(msg){
 
   s.innerText=msg;
 
-  navigator.vibrate([200,100,200]);
+  setTimeout(()=>{
+    s.style.opacity="0";
+  },10000);
 
-  const audio=new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-  audio.play();
+  navigator.vibrate([200,100,200]);
 
 }
 
