@@ -5,241 +5,242 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{
-  font-family:Inter,system-ui;
-  background:#0f172a;
-  color:#e2e8f0;
-  margin:0;
-  padding:12px;
-}
 
-.container{
-  max-width:600px;
-  margin:auto;
-}
+  body{
+    font-family:Inter,system-ui;
+    background:#0f172a;
+    color:#e2e8f0;
+    margin:0;
+    padding:12px;
+  }
 
-h2{
-  font-size:22px;
-}
+  .container{
+    max-width:600px;
+    margin:auto;
+  }
 
-select{
-  width:90px;
-  min-width:80px;
-  padding:10px;
-  font-size:15px;
-  border-radius:6px;
-  border:1px solid #334155;
-  background:#0f172a;
-  color:white;
-}
+  h2{
+    font-size:22px;
+  }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:#1e293b;
-  min-width:520px;
-}
+  select{
+    width:90px;
+    min-width:80px;
+    padding:10px;
+    font-size:15px;
+    border-radius:6px;
+    border:1px solid #334155;
+    background:#0f172a;
+    color:white;
+  }
 
-.tableContainer{
-  width:100%;
-  overflow-x:auto;
-}
+  td{
+    padding:14px;
+    text-align:center;
+    overflow:visible;
+  }
 
-th{
-  position:sticky;
-  top:0;
-  background:#020617;
-  z-index:10;
-}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:#1e293b;
+    min-width:520px;
+  }
 
-tr:hover{
-  background:#ffffff20;
-}
+  .tableContainer{
+    width:100%;
+    overflow-x:auto;
+  }
 
-td{
-  padding:10px 6px;
-  text-align:center;
-}  
+  th{
+    position:sticky;
+    top:0;
+    background:#020617;
+    z-index:10;
+  }
 
-.extraRow{
-  background:#312e81;
-  border-top:2px dashed #6366f1;
-}
+  tr:hover{
+    background:#ffffff20;
+  }
 
-body.light-mode .extraRow{
-  background:#eef2ff;
-}
+  td{
+    padding:10px 6px;
+    text-align:center;
+  }
 
-input{
-  width:80px;
-  font-size:18px;
-  padding:12px;
-  border-radius:8px;
-  border:1px solid #334155;
-  background:#0f172a;
-  color:white;
-}
+  .extraRow{
+    background:#312e81;
+    border-top:2px dashed #6366f1;
+  }
 
-button{
-  width:100%;
-  padding:16px;
-  margin-top:14px;
-  font-size:18px;
-  background:#22c55e;
-  border:none;
-  border-radius:8px;
-  font-weight:600;
-}
+  body.light-mode .extraRow{
+    background:#eef2ff;
+  }
 
-.status{
-  margin-top:12px;
-  font-size:18px;
-}
+  input{
+    width:80px;
+    font-size:18px;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #334155;
+    background:#0f172a;
+    color:white;
+  }
 
-.error{
-  color:#f87171;
-}
+  button{
+    width:100%;
+    padding:16px;
+    margin-top:14px;
+    font-size:18px;
+    background:#22c55e;
+    border:none;
+    border-radius:8px;
+    font-weight:600;
+  }
 
-.success{
-  color:#4ade80;
+  .status{
+    margin-top:12px;
+    font-size:18px;
+  }
 
-.headerBar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
+  .error{
+    color:#f87171;
+  }
 
-.themeToggle{
-width:40px;
-height:40px;
-font-size:18px;
-border-radius:50%;
-background:#1e293b;
-color:white;
-border:none;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-transition:all 0.3s ease;
-}
+  .success{
+    color:#4ade80;
+  }
 
-.themeToggle:hover{
-transform:scale(1.1);
-}
+  .headerBar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+  }
 
-.lineSelector{
-width:100%;
-font-size:18px;
-padding:14px;
-margin-top:10px;
-border-radius:10px;
-border:1px solid #334155;
-background:#0f172a;
-color:white;
-}
+  .themeToggle{
+    width:40px;
+    height:40px;
+    font-size:18px;
+    border-radius:50%;
+    background:#1e293b;
+    color:white;
+    border:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.3s ease;
+  }
 
-.statusIndicator{
-font-size:14px;
-margin-bottom:12px;
-color:#9ca3af;
-}
+  .themeToggle:hover{
+    transform:scale(1.1);
+  }
 
-body.light-mode{
-  background:#f1f5f9;
-  color:#0f172a;
-}
+  .lineSelector{
+    width:100%;
+    font-size:18px;
+    padding:14px;
+    margin-top:10px;
+    border-radius:10px;
+    border:1px solid #334155;
+    background:#0f172a;
+    color:white;
+  }
 
-body.light-mode table{
-  background:white;
-}
+  .statusIndicator{
+    font-size:14px;
+    margin-bottom:12px;
+    color:#9ca3af;
+  }
 
-body.light-mode th{
-  background:#e2e8f0;
-  color:#0f172a;
-}
+  body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+  }
 
-body.light-mode tr:hover{
-  background:#e2e8f0;
-}
+  body.light-mode table{
+    background:white;
+  }
 
+  body.light-mode th{
+    background:#e2e8f0;
+    color:#0f172a;
+  }
 
-body.light-mode input,
-body.light-mode select{
-  background:white;
-  color:#0f172a;
-  border:1px solid #cbd5e1;
-}
+  body.light-mode tr:hover{
+    background:#e2e8f0;
+  }
 
-body.light-mode .card{
-  background:white;
-}
+  body.light-mode input,
+  body.light-mode select{
+    background:white;
+    color:#0f172a;
+    border:1px solid #cbd5e1;
+  }
 
-.card{
-  background:#1e293b;
-  border-radius:14px;
-  padding:16px;
-  margin-top:14px;
-  box-shadow:0 6px 14px rgba(0,0,0,0.35);
-}
+  body.light-mode .card{
+    background:white;
+  }
 
-}
+  .card{
+    background:#1e293b;
+    border-radius:14px;
+    padding:16px;
+    margin-top:14px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.35);
+  }
 
-.activeRow{
-  background:#ffffff30;
-}
+  .activeRow{
+    background:#ffffff30;
+  }
 
-body.light-mode .activeRow{
-  background:#cbd5e1;
-}
+  body.light-mode .activeRow{
+    background:#cbd5e1;
+  }
 
-#tdTable tr{
-  cursor:pointer;
-}
-  
+  #tdTable tr{
+    cursor:pointer;
+  }
+
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="headerBar">
+  <div class="headerBar">
 
-<h2>TD Verification</h2>
+  <h2>TD Verification</h2>
 
-<button onclick="toggleTheme()" id="themeToggle" class="themeToggle">
-🌙
-</button>
+  <button onclick="toggleTheme()" id="themeToggle" class="themeToggle">
+  🌙
+  </button>
 
-</div>
+  </div>
 
-<div id="connectionStatus" class="statusIndicator">
-🟢 Online
-</div>
+  <div id="connectionStatus" class="statusIndicator">
+    🟢 Online
+  </div>
 
-<div class="card">
-<select id="lineSelect" class="lineSelector">
+  <div class="card">
+    <select id="lineSelect" class="lineSelector">
+      <option value="">Select Assembly Line</option>
+    </select>
+  </div>
 
-<option value="">Select Assembly Line</option>
-</select>
+  <div id="tableArea" class="card">
+  </div>
+  
+  <div class="card">
+    <button onclick="addExtraRow()">➕ Add Extra Item</button>
+    <button onclick="clearLine()">🧹 Clear Line</button>
+    <button id="saveBtn" onclick="save()">Save Verification</button>
+  </div>
 
-</select>
-</div>
-<div id="tableArea" class="card"></div>
-
-<div class="card">
-
-<button onclick="addExtraRow()">➕ Add Extra Item</button>
-
-<button onclick="clearLine()">🧹 Clear Line</button>
-
-<button id="saveBtn" onclick="save()">Save Verification</button>
-
-
-<div id="status" class="status"></div>
+  <div id="status" class="status">
+  </div>
 
 </div>
 
@@ -261,7 +262,6 @@ document.addEventListener("focusin",function(e){
 
 });
 
-  
 let darkMode=true;
 
 function toggleTheme(){
@@ -282,7 +282,6 @@ function toggleTheme(){
   }
 
 }
-
 
 function updateConnectionStatus(){
 
@@ -328,12 +327,6 @@ function render(){
   let html=`
   <div class="tableContainer">
   <table id="tdTable">
-  
-html+=`</table>`;
-with 
-html+=`</table></div>`;
-
-
   <tr>
   <th>Code</th>
   <th>Description</th>
@@ -363,7 +356,7 @@ html+=`</table></div>`;
     </tr>`;
   });
 
-  html+=`</table>`;
+  html+=`</table></div>`;
 
   tableArea.innerHTML=html;
 
@@ -377,7 +370,6 @@ function addExtraRow(){
 
   const row=`
   <tr id="${id}" class="extraRow">
-
 
     <td><input placeholder="Code"></td>
 
@@ -423,7 +415,6 @@ function clearLine(){
   });
 
 }
-
 
 function toggleActual(idx){
 
@@ -517,7 +508,6 @@ function save(){
   .saveChecklist(payload);
 
 }
-
 
 function showError(msg){
 
