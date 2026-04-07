@@ -354,13 +354,24 @@ function addExtraRow(){
 
 function clearLine(){
 
-  const inputs=document.querySelectorAll("#tdTable input[type='number']");
+  const table=document.getElementById("tdTable");
+
+  if(!table) return;
+
+  const inputs=table.querySelectorAll("input");
 
   inputs.forEach(i=>{
     i.value="";
   });
 
+  const selects=table.querySelectorAll("select");
+
+  selects.forEach(s=>{
+    s.value="YES";
+  });
+
 }
+
 
 function toggleActual(idx){
 
