@@ -241,25 +241,20 @@ function toggleTheme(){
   const body=document.body;
   const btn=document.getElementById("themeToggle");
 
-  body.style.transition="background 0.4s ease, color 0.4s ease";
+  if(body.classList.contains("light-mode")){
 
-  if(darkMode){
-
-    body.style.background="#f8fafc";
-    body.style.color="#0f172a";
-    btn.innerHTML="☀️";
+    body.classList.remove("light-mode");
+    btn.innerHTML="🌙";
 
   }else{
 
-    body.style.background="#0f172a";
-    body.style.color="#e2e8f0";
-    btn.innerHTML="🌙";
+    body.classList.add("light-mode");
+    btn.innerHTML="☀️";
 
   }
 
-  darkMode=!darkMode;
-
 }
+
 
 function updateConnectionStatus(){
 
