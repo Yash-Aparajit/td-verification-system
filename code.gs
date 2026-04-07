@@ -34,6 +34,7 @@ function getTDData() {
     if (!result[line]) result[line] = [];
 
     result[line].push({
+
       itemCode: normalize(r[1]),
       itemName: normalize(r[2]),
       tdQty: Number(r[3]),
@@ -109,10 +110,9 @@ function validatePayload(p) {
 
     if (isNaN(r.actualQty))
       throw new Error("Invalid quantity");
-    
+
     if (r.actualQty < 0)
       throw new Error("Negative quantity not allowed");
-
 
   });
 
