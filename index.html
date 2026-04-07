@@ -235,6 +235,21 @@ body.light-mode .card{
 
 let TD = {};
 
+document.addEventListener("focusin",function(e){
+
+  const row=e.target.closest("tr");
+
+  if(!row) return;
+
+  document.querySelectorAll("#tdTable tr").forEach(r=>{
+    r.classList.remove("activeRow");
+  });
+
+  row.classList.add("activeRow");
+
+});
+
+  
 let darkMode=true;
 
 function toggleTheme(){
